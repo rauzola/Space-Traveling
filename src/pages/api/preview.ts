@@ -1,38 +1,21 @@
-/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
-/* eslint-disable @typescript-eslint/explicit-function-return-type */
-import Prismic from '@prismicio/client';
-
 import { Document } from '@prismicio/client/types/documents';
-
-const apiEndpoint = process.env.PRISMIC_API_ENDPOINT;
-const accessToken = process.env.PRISMIC_ACCESS_TOKEN;
+import { NextApiRequest, NextApiResponse } from 'next';
+import { getPrismicClient } from '../../services/prismic';
 
 function linkResolver(doc: Document): string {
-  if (doc.type === 'posts') {
+  if (doc.type === 'post') {
     return `/post/${doc.uid}`;
   }
   return '/';
 }
 
-// Client method to query from the Prismic repo
-const Client = (req = null) =>
-  Prismic.client(apiEndpoint, createClientOptions(req, accessToken));
-
-const createClientOptions = (req = null, prismicAccessToken = null) => {
-  const reqOption = req ? { req } : {};
-  const accessTokenOption = prismicAccessToken
-    ? { accessToken: prismicAccessToken }
-    : {};
-  return {
-    ...reqOption,
-    ...accessTokenOption,
-  };
-};
-
-const Preview = async (req, res) => {
+const Preview = async (
+  req: NextApiRequest,
+  res: NextApiResponse
+): Promise<void> => {
   const { token: ref, documentId } = req.query;
-  const redirectUrl = await Client(req)
-    .getPreviewResolver(ref, documentId)
+  const redirectUrl = await getPrismicClient(req)
+    .getPreviewResolver(ref as string, documentId as string)
     .resolve(linkResolver, '/');
 
   if (!redirectUrl) {

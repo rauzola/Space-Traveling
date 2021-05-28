@@ -1,9 +1,11 @@
-import Document, { Head, Html, Main, NextScript } from 'next/document';
+/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
+/* eslint-disable @typescript-eslint/explicit-function-return-type */
+import Document, { Html, Head, Main, NextScript } from 'next/document';
 
 export default class MyDocument extends Document {
   render() {
     return (
-      <Html lang="pt-BR">
+      <Html>
         <Head>
           <link rel="preconnect" href="https://fonts.gstatic.com" />
           <link
@@ -11,14 +13,10 @@ export default class MyDocument extends Document {
             rel="stylesheet"
           />
         </Head>
+
         <body>
           <Main />
           <NextScript />
-          <script
-            async
-            defer
-            src="https://static.cdn.prismic.io/prismic.js?new=true&repo=spacetraveling2"
-          />
         </body>
       </Html>
     );

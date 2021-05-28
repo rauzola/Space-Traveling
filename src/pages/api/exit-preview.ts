@@ -1,6 +1,9 @@
-/* eslint-disable @typescript-eslint/explicit-function-return-type */
-/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
-export default async (_, res) => {
+import { NextApiRequest, NextApiResponse } from 'next';
+
+export default async (
+  req: NextApiRequest,
+  res: NextApiResponse
+): Promise<void> => {
   res.clearPreviewData();
 
   res.writeHead(307, { Location: '/' });
